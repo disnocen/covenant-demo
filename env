@@ -1,0 +1,2 @@
+export HOME="/Users/fadi"
+export PATH=$PATH:$HOME/Projects/elements-22.1.1/bin
