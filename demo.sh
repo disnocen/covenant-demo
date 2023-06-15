@@ -24,7 +24,7 @@ rm -rf $HOME/elementsdir1
 cp -r ./bootstrap_data/elementsdir1 $HOME
 
 # from https://elementsproject.org/elements-code-tutorial/blockchain
-STANDALONEARGS=("-validatepegin=0" "-defaultpeggedassetname=newasset" "-initialfreecoins=1000000000000000" "-initialreissuancetokens=200000000")
+STANDALONEARGS=("-validatepegin=0" "-defaultpeggedassetname=newasset" "-initialfreecoins=1000000000000000" "-initialreissuancetokens=200000000" "-addresstype=legacy")
 e1-dae ${STANDALONEARGS[@]}
 
 sleep 1
@@ -36,7 +36,7 @@ e1-cli rescanblockchain
 
 function create_new_address() {
     rand=$(echo $RANDOM)
-    new_addr=$(e1-cli getnewaddress $rand legacy)
+    new_addr=$(e1-cli getnewaddress )
     echo $new_addr 
 }
 
