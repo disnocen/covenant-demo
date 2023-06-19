@@ -36,7 +36,7 @@ e1-cli rescanblockchain
 
 function create_new_address() {
     rand=$(echo $RANDOM)
-    new_addr=$(e1-cli getnewaddress )
+    new_addr=$(e1-cli getnewaddress "" legacy)
     echo $new_addr 
 }
 
@@ -51,16 +51,16 @@ input_addr_conf=$(create_new_address)
 input_addr_unconf=$(e1-cli getaddressinfo $input_addr_conf | jq .unconfidential) # returns with ""
 input_priv_key=$(e1-cli dumpprivkey $input_addr_conf)
 echo the privatekey: $input_priv_key
-echo "\"input_priv_key\" : \"$input_priv_key\"," >> data.json
+echo "    \"input_priv_key\" : \"$input_priv_key\"," >> data.json
 echo the address: $new_addr
-echo "\"input_addr_conf\" : \"$input_addr_conf\"," >> data.json
-echo "\"input_addr_unconf\" : $input_addr_unconf," >> data.json
-echo "\"miner_address\" : \"$miner_address\"," >> data.json
+echo "    \"input_addr_conf\" : \"$input_addr_conf\"," >> data.json
+echo "    \"input_addr_unconf\" : $input_addr_unconf," >> data.json
+echo "    \"miner_address\" : \"$miner_address\"," >> data.json
 
 new_tx=$(e1-cli sendtoaddress $input_addr_conf  1 "" "" true)
 e1-cli generatetoaddress 1 $miner_address
 echo the tx hash: $new_tx
-echo "\"txhash\" : \"$new_tx\"," >> data.json
+echo "    \"txhash\" : \"$new_tx\"," >> data.json
 
 
 #  e1-cli getaddressinfo CTEuRWNa1W28HAxsdVh3ipsquTroCF1sWnKZu3kQUL6S3Lpq3Eta7kTxiH7at78DiTbyyBwicTxuYEEk|jq .pubkey    to get pubkey and other infoo
@@ -68,7 +68,7 @@ echo "\"txhash\" : \"$new_tx\"," >> data.json
 # inspect the transaction hash
 vout=$(e1-cli gettxout $new_tx  1 |jq .scriptPubKey.asm |grep -q OP_DUP && echo 1 || echo 0)
 tx_data=$(e1-cli gettxout $new_tx $vout)
-echo "\"vout\" : \"$vout\"," >> data.json
+echo "    \"vout\" : \"$vout\"," >> data.json
 echo the vout is: $vout
 echo $tx_data|jq
 
@@ -78,9 +78,9 @@ echo $tx_data|jq
 output_addr_conf=$(create_new_address)
 output_addr_unconf=$(e1-cli getaddressinfo $output_addr_conf | jq .unconfidential) # returns with ""
 output_priv_key=$(e1-cli dumpprivkey $output_addr_conf)
-echo "\"output_priv_key\" : \"$output_priv_key\"," >> data.json
-echo "\"output_addr_conf\" : \"$output_addr_conf\"," >> data.json
-echo "\"output_addr_unconf\" : $output_addr_unconf" >> data.json
+echo "    \"output_priv_key\" : \"$output_priv_key\"," >> data.json
+echo "    \"output_addr_conf\" : \"$output_addr_conf\"," >> data.json
+echo "    \"output_addr_unconf\" : $output_addr_unconf" >> data.json
 
 
 
